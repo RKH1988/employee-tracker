@@ -1,18 +1,22 @@
--- removes tables from db if 
+-- removes tables from db if already exists
 DROP TABLE IF EXISTS department;
 DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS employee;
 
+-- creates department table
 CREATE TABLE department (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50) NOT NULL
 );
 
+
+-- creates role table
 CREATE TABLE role (
   id INTEGER AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   salary DECIMAL NOT NULL,
   department_id INTEGER,
+  --sets foreign key department_id, linking it to the department table, field id
     FOREIGN KEY (department_id)
     REFERENCES department(id)
     ON DELETE SET NULL
@@ -25,11 +29,13 @@ CREATE TABLE employee (
   role_id INTEGER,
   manager_id INTEGER,
 
+  --sets foreign key role_id, linking it to the role table, field id
     FOREIGN KEY (role_id)
     REFERENCES role (id)
     ON DELETE SET NULL,
   
-    FOREIGN KEY (manager_id)
+    --sets foreign key manager_id, linking (self-reference) it to the employee table, field id
+  FOREIGN KEY (manager_id)
     REFERENCES employee(id)
     ON DELETE SET NULL
 );
